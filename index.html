@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Webapp Builder</title>
+    <link rel="stylesheet" href="index.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+<script type="importmap">
+{
+  "imports": {
+    "@google/genai": "https://esm.sh/@google/genai@^1.9.0"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+<body>
+    <div id="app">
+        <header>
+            <h1>AI Webapp Builder</h1>
+            <p>Your creative partner for building unique, interactive web projects.</p>
+        </header>
+        <main>
+            <!-- Initial View -->
+            <div id="initial-view" class="view active">
+                <div id="api-key-setup">
+                    <h3>Enter Your Gemini API Key</h3>
+                    <p class="api-key-prompt">To start, please provide your own Google Gemini API key. It will be stored securely in your browser for this session only.</p>
+                    <div class="api-key-form">
+                        <input type="password" id="api-key-input" placeholder="Enter your Gemini API key">
+                        <button id="save-api-key-btn" class="action-btn">Save &amp; Continue</button>
+                    </div>
+                    <p class="api-key-link">
+                        <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener noreferrer">Get an API Key from Google AI Studio</a>
+                    </p>
+                </div>
+
+                <div id="generate-ideas-container" class="hidden">
+                    <button id="generate-ideas-btn" class="action-btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="24" height="24"><path d="M9 21.0351C5.87454 20.5113 3.5 17.6079 3.5 14C3.5 10.3921 5.87454 7.48872 9 6.96491V21.0351ZM11 21.0351V2.96491C11.3306 2.98845 11.6642 3 12 3C16.9706 3 21 7.02944 21 12C21 16.9706 16.9706 21 12 21C11.6642 21 11.3306 20.9884 11 20.9649V21.0351Z"></path></svg>
+                        Generate Project Ideas
+                    </button>
+                     <button id="change-api-key-btn" class="secondary-btn small-btn">Change API Key</button>
+                </div>
+            </div>
+
+            <!-- Loading View -->
+            <div id="loading-view" class="view">
+                <div class="spinner"></div>
+                <p id="loading-text">Generating fresh ideas...</p>
+            </div>
+
+            <!-- Ideas View -->
+            <div id="ideas-view" class="view">
+                <div class="ideas-header">
+                    <h2>Choose a Project to Build</h2>
+                    <button id="regenerate-ideas-btn" class="action-btn">Generate New Ideas</button>
+                </div>
+                <div id="ideas-list" role="list"></div>
+            </div>
+
+            <!-- Build View -->
+            <div id="build-view" class="view">
+                <div class="build-header">
+                     <h2 id="project-title"></h2>
+                     <button id="back-to-ideas-btn" class="secondary-btn">Back to Ideas</button>
+                </div>
+                <div class="tabs" role="tablist" aria-label="Project Output">
+                    <button id="preview-tab-btn" class="tab-btn active" role="tab" aria-selected="true" aria-controls="preview-panel">Preview</button>
+                    <button id="code-tab-btn" class="tab-btn" role="tab" aria-selected="false" aria-controls="code-panel">Code</button>
+                </div>
+                <div class="result-content">
+                    <div id="preview-panel" class="tab-panel active" role="tabpanel" tabindex="0" aria-labelledby="preview-tab-btn">
+                        <iframe id="preview-frame" title="Project Preview" sandbox="allow-scripts allow-same-origin"></iframe>
+                    </div>
+                    <div id="code-panel" class="tab-panel" role="tabpanel" tabindex="0" aria-labelledby="code-tab-btn">
+                        <pre><code id="code-display" class="language-html"></code></pre>
+                        <button id="copy-code-btn" class="copy-btn" aria-label="Copy code">
+                            <span id="copy-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M16 2H4C2.9 2 2 2.9 2 4V18H4V4H16V2ZM19 6H8C6.9 6 6 6.9 6 8V20C6 21.1 6.9 22 8 22H19C20.1 22 21 21.1 21 20V8C21 6.9 20.1 6 19 6ZM19 20H8V8H19V20Z"></path></svg>
+                            </span>
+                             <span id="copy-success" class="hidden">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M9 16.17L4.83 12L3.41 13.41L9 19L21 7L19.59 5.59L9 16.17Z"></path></svg>
+                            </span>
+                            <span id="copy-text">Copy</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script type="module" src="index.tsx"></script>
+<script type="module" src="/index.tsx"></script>
+</body>
+</html>
